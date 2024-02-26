@@ -9,9 +9,9 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class MvcInitalize implements WebApplicationInitializer {
-	
+
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		
+			
 		// Load Spring web application configuration
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.register(MvcConfig.class);
