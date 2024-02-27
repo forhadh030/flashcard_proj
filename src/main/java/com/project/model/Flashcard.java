@@ -1,29 +1,27 @@
 package com.project.model;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public class Flashcard {
 	
 	Long id;
-	String title;
-	String description;
+	String question;
+	String answer;
 	
-	private String getTitle() {
-		return title;
+	public String getQuestion() {
+		return question;
 	}
-	private void setTitle(String title) {
-		this.title = title;
+	public void setQuestion(String question) {
+		this.question = question;
 	}
-	private String getDescription() {
-		return description;
+	public String getAnswer() {
+		return answer;
 	}
-	private void setDescription(String description) {
-		this.description = description;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 	
 	@Override
 	public String toString() {
-		return "flashcardService [title=" + title + ", description=" + description + "]";
+		return "Flashcard [id=" + id + ", question=" + question + ", answer=" + answer + "]";
 	}
+	
 }
