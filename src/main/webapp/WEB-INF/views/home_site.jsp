@@ -1,4 +1,4 @@
-<link href="../../resources/css/index.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/css/index.css" rel="stylesheet" type="text/css">
 
 <!-- 
 
@@ -21,7 +21,8 @@
 <!-- Home/Landing Page -->
 <html>
 <body>
-<h2>Welcome to Flashcard</h2>
-<a href="/create"> Create a flashcard </a>
+	<h2>Welcome to Flashcard</h2>
+	<!-- Second page w/ Navigation -->
+	<a href="/createFlashcardForm"> Create a flashcard </a>
 </body>
 </html>
