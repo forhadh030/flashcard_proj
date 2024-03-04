@@ -64,5 +64,17 @@
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/d-s.j.hussain/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214.jar" sourcepath="C:/Users/d-s.j.hussain/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/d-s.j.hussain/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214-javadoc.jar!/"/>
+			<attribute name="maven.groupId" value="com.h2database"/>
+			<attribute name="maven.artifactId" value="h2"/>
+			<attribute name="maven.version" value="2.1.214"/>
+			<attribute name="maven.scope" value="test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
