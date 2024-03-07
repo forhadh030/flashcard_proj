@@ -29,6 +29,10 @@ public class Flashcard {
 		this.answer = answer;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	
 	public String getQuestion() {
 		return question;
 	}
