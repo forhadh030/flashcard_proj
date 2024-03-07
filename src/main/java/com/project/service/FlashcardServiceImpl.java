@@ -6,10 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.project.entity.Flashcard;
-import com.project.repository.FlashcardDAO;
 import com.project.repository.FlashcardRepository;
 
 @Service
