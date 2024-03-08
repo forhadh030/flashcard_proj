@@ -8,6 +8,9 @@ import com.project.entity.Flashcard;
 
 @Service
 public interface FlashcardService {
-	void saveFlashcard(Flashcard flashcard);
-	List<Flashcard> getAllFlashcards();
+	
+	public List < Flashcard > getFlashcards();
+	public void saveFlashcard(Flashcard flashcard);
+	public Flashcard getFlashcard(Long id);
+	public void deleteFlashcard(Long id);
 }

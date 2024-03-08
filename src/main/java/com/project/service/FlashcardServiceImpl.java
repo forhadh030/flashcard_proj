@@ -13,7 +13,17 @@ import com.project.entity.Flashcard;
 public class FlashcardServiceImpl implements FlashcardService {
 	
 	@Autowired
-	private FlashcardDAO flashcardDAO;
+    private FlashcardDAO flashcardDAO;
+	
+	public FlashcardServiceImpl(FlashcardDAO flashcardDAO) {
+		this.flashcardDAO = flashcardDAO;
+	}
+
+	@Override
+	@Transactional
+	public List<Flashcard> getFlashcards() {
+		return flashcardDAO.getFlashcards();
+	}
 
 	@Override
 	@Transactional
@@ -22,8 +32,15 @@ public class FlashcardServiceImpl implements FlashcardService {
 	}
 
 	@Override
-	public List<Flashcard> getAllFlashcards() {
-		return flashcardDAO.findAll();
+	@Transactional
+	public Flashcard getFlashcard(Long id) {
+		return flashcardDAO.getFlashcard(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFlashcard(Long id) {
+		flashcardDAO.deleteFlashcard(id);
 	}
 
 }

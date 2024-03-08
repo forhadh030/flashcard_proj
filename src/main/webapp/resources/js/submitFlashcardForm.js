@@ -7,7 +7,7 @@ function submitFlashcardForm() {
 	
 	$.ajax({
 		type: 'POST',
-		url: '/saveFlashcard',
+		url: '/',
 		contextType: 'application/json',
 		data: JSON.stringify(formData),
 		success: function(response) {
