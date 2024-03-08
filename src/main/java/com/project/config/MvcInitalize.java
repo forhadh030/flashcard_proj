@@ -19,7 +19,7 @@ public class MvcInitalize implements WebApplicationInitializer {
 		
 		// Create and register the DispatcherServlet
 		DispatcherServlet servlet = new DispatcherServlet(context);
-		ServletRegistration.Dynamic registration = servletContext.addServlet("home_site", servlet);
+		ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", servlet);
 		registration.setLoadOnStartup(1);
 		registration.addMapping("/");
 	}

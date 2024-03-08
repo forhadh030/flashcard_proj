@@ -14,13 +14,13 @@ public class Flashcard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	Long id;
+	private Long id;
 	
 	@Column(name = "question")
-	String question;
+	private String question;
 	
 	@Column(name = "answer")
-	String answer;
+	private String answer;
 	
 	public Flashcard(){}
 	
@@ -31,6 +31,10 @@ public class Flashcard {
 	
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getQuestion() {

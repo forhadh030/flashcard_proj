@@ -1,7 +1,6 @@
 /**
  * Asynchronous Call (AngularJS Service to Rest-style Java Controller)
  */
-
 const REST_SERVICE_URI = "http://localhost:8080";
 
 function fetchFlashcard() {

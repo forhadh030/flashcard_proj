@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,26 +17,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Flashcard;
-import com.project.repository.FlashcardRepository;
+import com.project.service.FlashcardService;
 
 @RestController
-@RequestMapping("/api/flashcards")
+@RequestMapping("/api/flashcard")
 public class MvcRestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MvcRestController.class);
 
 	@Autowired
-    private FlashcardRepository flashcardRepository;
+    private FlashcardService flashcardService;
 
     @GetMapping
     public List<Flashcard> getAllFlashcards() {
-        return flashcardRepository.findAll();
+        return flashcardService.getFlashcards();
     }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createFlashcard(@RequestBody Flashcard flashcard) {
         try {
-            flashcardRepository.save(flashcard);
+            flashcardService.saveFlashcard(flashcard);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             // Log the exception for debugging purposes
@@ -47,10 +48,14 @@ public class MvcRestController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Flashcard> getFlashcardById(@PathVariable Long id) {
-        Optional<Flashcard> optionalFlashcard = flashcardRepository.findById(id);
-        return optionalFlashcard.map(ResponseEntity::ok)
-                                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
+    public Flashcard getFlashcardById(@PathVariable Long id) {
+    	for(Flashcard i : flashcardService.getFlashcards()) {
+    		if(i.getId() == id) {
+    			System.out.println("success! : " + flashcardService.getFlashcard(id));
+    			return flashcardService.getFlashcard(id);
+    		}
+    	}
+    	System.out.println("no data found");
+		return null;
+    };
 }
