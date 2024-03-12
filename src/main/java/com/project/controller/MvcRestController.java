@@ -1,8 +1,6 @@
 package com.project.controller;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +49,9 @@ public class MvcRestController {
     public Flashcard getFlashcardById(@PathVariable Long id) {
     	for(Flashcard i : flashcardService.getFlashcards()) {
     		if(i.getId() == id) {
-    			System.out.println("success! : " + flashcardService.getFlashcard(id));
-    			return flashcardService.getFlashcard(id);
+    			return new ResponseEntity<Flashcard>(flashcardService.getFlashcard(id), HttpStatus.CREATED).getBody();
     		}
     	}
-    	System.out.println("no data found");
-		return null;
+    	return null;
     };
 }

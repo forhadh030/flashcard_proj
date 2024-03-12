@@ -1,74 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
  pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
-<html>
-<head><%@ page isELIgnored="false" %>
-
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>javaguides.net</title>
-	<link href="<c:url value="/resources/css/bootstrap.min.css" />"
-	 rel="stylesheet">
-	<script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
-	<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
-	
+<html lang="en" ng-app="myApp">
+<head>
+	 <link href="${pageContext.request.contextPath}/resources/css/index.css" rel="stylesheet" type="text/css">
+	 <link href="../test.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-
- <div class="container">
-  <div class="col-md-offset-1 col-md-10">
-   <h2>Flashcards</h2>
-   <hr />
-
-   <input type="button" value="Add Flashcard"
-    onclick="window.location.href='form'; return false;"
-    class="btn btn-primary" />
-    <br/><br/>
-   <div class="panel panel-info">
-    <div class="panel-heading">
-     <div class="panel-title">Flashcard List</div>
-    </div>
-    <div class="panel-body">
-     <table class="table table-striped table-bordered">
-      <tr>
-       <th>Question</th>
-       <th>Answer</th>
-      </tr>
-
-      <!-- loop over and print our customers -->
-      <c:forEach var="tempFlashcard" items="${flashcards}">
-
-       <!-- construct an "update" link with customer id -->
-       <c:url var="updateLink" value="/flashcard/updateForm">
-        <c:param name="flashcardId" value="${tempFlashcard.id}" />
-       </c:url>
-
-       <!-- construct an "delete" link with customer id -->
-       <c:url var="deleteLink" value="/flashcard/delete">
-        <c:param name="flashcardId" value="${tempFlashcard.id}" />
-       </c:url>
-
-       <tr>
-        <td>${tempFlashcard.question}</td>
-        <td>${tempFlashcard.answer}</td>
-
-        <td>
-         <!-- display the update link --> <a href="${updateLink}">Update</a>
-         | <a href="${deleteLink}"
-         onclick="if (!(confirm('Are you sure you want to delete this flashcard?'))) return false">Delete</a>
-        </td>
-
-       </tr>
-
-      </c:forEach>
-
-     </table>
-
-    </div>
-   </div>
-  </div>
- </div>
+<body ng-controller="FlashcardController">
+	<h1>Flashcards App</h1>
+	
+	<!-- Display Flashcards -->
+	<div ng-repeat="flashcard in flashcards">
+		<p>{{flashcard.question}} - {{flashcard.answer}}</p>
+	</div>
+	
+	<!-- Create flashcard form -->
+	<form ng-submit="createFlashcard()">
+		<label>Question:</label>
+		<input type="text" ng-model="newFlashcard.answer" required>
+		<label>Answer:</label>
+		<input type="text" ng-model="newFlashcard.answer" required>
+		<button type="submit">Create Flashcard</button>
+	</form>
  
 </body>
 </html>
