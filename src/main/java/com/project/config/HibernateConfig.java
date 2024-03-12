@@ -16,7 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:META-INF/spring/database.properties")
 @EnableTransactionManagement
 public class HibernateConfig {
 
