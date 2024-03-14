@@ -30,28 +30,21 @@ public class MainController {
 	public String viewAllFlashcards(Model model) {
 		List<Flashcard> flashcards = flashcardService.getFlashcards();
 		model.addAttribute("flashcard", flashcards);
-//		model.addAttribute("newFlashcard", new Flashcard());
 		return "viewFlashcards";
 	}
 	
-	@PostMapping("/create")
-	public String createFlashcard(@ModelAttribute("flashcard") Flashcard flashcard) {
-		flashcardService.saveFlashcard(flashcard);
-		System.out.println(flashcard);
-		return "redirect:/";
-	}
-	
-	@GetMapping("/updateForm")
-	public String showFormForUpdate(@RequestParam("flashcardId") Long id, Model model) {
+	@GetMapping("/editFlashcard")
+	public String showEditFlashcardForm(@RequestParam("id") Long id, Model model) {
 		Flashcard flashcard = flashcardService.getFlashcard(id);
 		model.addAttribute("flashcard", flashcard);
-		return "createFlashcard";
+		return "editFlashcard";
 	}
 	
-	@GetMapping("/delete")
-	public String deleteFlashcard(@RequestParam("flashcardId") Long id) {
-		flashcardService.deleteFlashcard(id);
-		return "redirect:/";
+	@PostMapping("/update")
+	public String updateFlashcard(@ModelAttribute("flashcard") Flashcard flashcard) {
+		flashcardService.saveFlashcard(flashcard);
+		System.out.println(flashcard);
+		return "redirect:/viewFlashcards";
 	}
 
 }
