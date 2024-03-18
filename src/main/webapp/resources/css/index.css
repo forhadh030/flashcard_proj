@@ -1,5 +1,35 @@
 @charset "ISO-8859-1";
 
-body {
-	border: 1px solid red;
+/* General Design */
+.center-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f8f9fa;
+}
+
+/* Home Design */
+.home-container {
+	width: 100vw;
+}
+
+.card-size {
+	padding: 50px;
+}
+
+/* viewFlashcard page design */
+.back-to-home {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.footer {
+	background-color: gray;
+}
+
+.flashcard-card {
+	margin: 10px 0 10px 0;
 }

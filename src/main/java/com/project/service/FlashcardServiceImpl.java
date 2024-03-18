@@ -43,4 +43,10 @@ public class FlashcardServiceImpl implements FlashcardService {
 		flashcardDAO.deleteFlashcard(id);
 	}
 
+	@Override
+	@Transactional
+	public void updateFlashcard(Flashcard flashcard) {
+		flashcardDAO.updateFlashcard(flashcard);	
+	}
+
 }
