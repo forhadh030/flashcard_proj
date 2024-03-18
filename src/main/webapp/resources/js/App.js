@@ -6,11 +6,14 @@ angular.module("myApp", [])
 	
 	// Initialize flashcards array
 	$scope.flashcards = [];
-	
+
 	// Fetch all flashcards
 	$http.get(URL)
 	.then(function(response) {
 		$scope.flashcards = response.data;
+		if($scope.flashcards == null) {
+			$scope.message = "No Data Available";
+		}
 	})
 	.catch(function(error) {
 		console.error('Error fetching flashcards:', error);
@@ -53,25 +56,26 @@ angular.module("myApp", [])
 		}
 	};
 	
-	// Function to update a flashcard
+	// Function to route to update form and transfer flashcard info
 	$scope.editFlashcard = function(id, flashcard) {
+		console.log("Editing flashcard with ID: ", id);
+		flashcardToUpdate = flashcard;
 		$window.location.href = '/editFlashcard?id=' + id, flashcard;
-	}	
+	}
 	
-	$scope.updateFlashcard = function(id, updatedFlashcard) {
+	// Function to update the transferred flashcard
+	$scope.updateFlashcard = function(updatedFlashcard) {
+		var id = new URLSearchParams(window.location.search).get('id');
+		console.log("Updating flashcard with ID: ", id);
+		
 		$http.put(URL + "update/" + id, updatedFlashcard)
 		.then(function(response) {
-			
 			console.log("Flashcard updated successfully: ", response.data);
-			
 			$window.location.href = "/viewFlashcards";
-			
-			})
-			.catch(function(error) {
-				console.error("Error updating flashcard:", error)
-				$scope.errorMessage = "Failed to update flashcard. Please try again later.";
-			}
-		)
+		})
+		.catch(function(error) {
+			console.error("Error updating flashcard: ", error);
+		});
 	};
 	
 	// Function to close the success alert

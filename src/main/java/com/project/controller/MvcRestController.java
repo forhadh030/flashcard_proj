@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,12 +31,13 @@ public class MvcRestController {
 
     @GetMapping
     public List<Flashcard> getAllFlashcards() {
-        return flashcardService.getFlashcards();
+        return new ResponseEntity<>(flashcardService.getFlashcards(), HttpStatus.CREATED).getBody();
     }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createFlashcard(@RequestBody Flashcard flashcard) {
         try {
+        	flashcard.setDate(new Date());
             flashcardService.saveFlashcard(flashcard);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
@@ -49,23 +51,21 @@ public class MvcRestController {
 
     @GetMapping("/{id}")
     public Flashcard getFlashcardById(@PathVariable Long id) {
-    	for(Flashcard i : flashcardService.getFlashcards()) {
-    		if(i.getId() == id) {
-    			return new ResponseEntity<Flashcard>(flashcardService.getFlashcard(id), HttpStatus.CREATED).getBody();
-    		}
-    	}
-    	return null;
-    };
+    	return new ResponseEntity<Flashcard>(flashcardService.getFlashcard(id), HttpStatus.CREATED).getBody();
+    }
+
     
     @PutMapping("/update/{id}")
     public ResponseEntity<Flashcard> updateFlashcard(@PathVariable("id") Long id, @RequestBody Flashcard flashcard) {
     	Flashcard existingFlashcard = flashcardService.getFlashcard(id);
+    	System.out.println(existingFlashcard);
     	if(existingFlashcard != null) {
     		existingFlashcard.setQuestion(flashcard.getQuestion());
     		existingFlashcard.setAnswer(flashcard.getAnswer());
-    		flashcardService.saveFlashcard(existingFlashcard);
+    		flashcardService.updateFlashcard(existingFlashcard);
     		return new ResponseEntity<>(existingFlashcard, HttpStatus.OK);
     	} else {
+    		System.out.println("data do not exist");
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     }

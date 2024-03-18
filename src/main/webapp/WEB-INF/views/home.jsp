@@ -29,6 +29,11 @@
 				<!-- Create flashcard form -->
 				<form ng-submit="createFlashcard()" class="mb-4">
 					<div class="form-group">
+						<label for="date">Date:</label>
+						<input type="date" class="form-control" id="date" ng-model="newFlashcard.date" required>
+					</div>
+					
+					<div class="form-group">
 						<label for="question">Question:</label>
 						<input type="text" id="question" class="form-control" ng-model="newFlashcard.question" required>	
 					</div>

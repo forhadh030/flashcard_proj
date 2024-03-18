@@ -9,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
 import com.project.entity.Flashcard;
 import com.project.service.FlashcardService;
 
@@ -36,14 +39,13 @@ public class MainController {
 	@GetMapping("/editFlashcard")
 	public String showEditFlashcardForm(@RequestParam("id") Long id, Model model) {
 		Flashcard flashcard = flashcardService.getFlashcard(id);
-		model.addAttribute("flashcard", flashcard);
+		model.addAttribute("flashcardJson", new Gson().toJson(flashcard));
 		return "editFlashcard";
 	}
 	
-	@PostMapping("/update")
-	public String updateFlashcard(@ModelAttribute("flashcard") Flashcard flashcard) {
-		flashcardService.saveFlashcard(flashcard);
-		System.out.println(flashcard);
+	@PutMapping("/update")
+	public String updateFlashcard(@RequestBody Flashcard flashcard) {
+		flashcardService.updateFlashcard(flashcard);
 		return "redirect:/viewFlashcards";
 	}
 

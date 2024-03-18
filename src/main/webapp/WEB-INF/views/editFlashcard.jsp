@@ -6,12 +6,14 @@
 <html lang="en" ng-app="myApp">
 <head>
 	 <meta charset="ISO-8859-1">
+	 
 	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js" defer></script>
 	 <script src="${pageContext.request.contextPath}/resources/js/App.js" defer></script>
 	 <link href="<c:url value="/resources/angular/angular-route.js" />" rel="stylesheet">
 	 
 	 <link href="<c:url value="/resources/css/index.css" />" rel="stylesheet">
 	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	 
 	 <title>Edit Flashcard</title>
 </head>
 <body ng-controller="FlashcardController">
@@ -29,8 +31,13 @@
 			<p id="previousAnswer">{{ flashcard.answer }}</p>
 		</div>
 		
+		<form ng-submit="updateFlashcard(updatedFlashcard)">
 		
-		<form ng-submit="updateFlashcard(flashcard.id, updatedFlashcard)">
+			<div class="form-group">
+				<label for="date">Date:</label>
+				<input type="date" class="form-control" id="date" ng-model="flashcard.date">
+			</div>
+		
 			<div class="form-group">
 				<label for="question">New Question:</label>
 				<input type="text" class="form-control" id="question" ng-model="updatedFlashcard.question" required>
@@ -38,15 +45,17 @@
 			
 			<div class="form-group">
 				<label for="answer">New Answer:</label>
-				<input type="text" class="form-control" id="answer" ng-model="updatedFlashcard.answer" required>
+				<input type="text" class="form-control" id="answer" ng-model="updatedFlashcard.answer"  required>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Update Flashcard</button>
 			
 		</form>
 	</div>
+	
 	<script>
-		console.log("Flashcard object: ", flashcard);
+		var id = new URLSearchParams(window.location.search).get('id');
+		console.log("flashcard ID: ", id)
 	</script>
 </body>
 </html>
