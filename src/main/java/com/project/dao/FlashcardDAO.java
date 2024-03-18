@@ -1,14 +1,10 @@
-package com.project.service;
+package com.project.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.project.entity.Flashcard;
 
-@Service
-public interface FlashcardService {
-	
+public interface FlashcardDAO {
 	List < Flashcard > getFlashcards();
 	void saveFlashcard(Flashcard flashcard);
 	Flashcard getFlashcard(Long id);
