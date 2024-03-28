@@ -1,52 +1,72 @@
 package com.project.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
-import com.project.dao.FlashcardDAO;
 import com.project.entity.Flashcard;
 
 @Service
 public class FlashcardServiceImpl implements FlashcardService {
 	
-	@Autowired
-    private FlashcardDAO flashcardDAO;
+private final String BASE_URI = "http://localhost:8080/api/flashcard/";
 	
-	public FlashcardServiceImpl(FlashcardDAO flashcardDAO) {
-		this.flashcardDAO = flashcardDAO;
+	@Autowired
+	RestTemplate restTemplate;
+	private final String baseUrl;
+	
+	public FlashcardServiceImpl(RestTemplate restTemplate, @Value("${backend.baseUrl}") String baseUrl) {
+		this.restTemplate = restTemplate;
+		this.baseUrl = baseUrl;
 	}
-
-	@Override
-	@Transactional
-	public List<Flashcard> getFlashcards() {
-		return flashcardDAO.getFlashcards();
-	}
-
-	@Override
-	@Transactional
-	public void saveFlashcard(Flashcard flashcard) {
-		flashcardDAO.saveFlashcard(flashcard);
-	}
-
-	@Override
-	@Transactional
+	
 	public Flashcard getFlashcard(Long id) {
-		return flashcardDAO.getFlashcard(id);
+		System.out.println("Testing getFlashcard API -----------");
+		return restTemplate.getForObject(BASE_URI + id, Flashcard.class);
 	}
 
 	@Override
-	@Transactional
-	public void deleteFlashcard(Long id) {
-		flashcardDAO.deleteFlashcard(id);
+	public List<Flashcard> getAllFlashcards() {
+		Flashcard[] flashcardsArray = restTemplate.getForObject(BASE_URI, Flashcard[].class);
+		List<Flashcard> flashcards = Arrays.asList(flashcardsArray);
+		return flashcards;
 	}
 
 	@Override
-	@Transactional
-	public void updateFlashcard(Flashcard flashcard) {
-		flashcardDAO.updateFlashcard(flashcard);	
+	public void saveFlashcard(Flashcard flashcard) {
+		System.out.println("Testing create User API ------------");
+		URI uri = restTemplate.postForLocation(BASE_URI + "/create", flashcard, Flashcard.class);
+		System.out.println("Location : " + uri.toASCIIString());
+		
+	}
+
+	@Override
+	public Flashcard deleteFlashcard(Long id) {
+		String url = BASE_URI + "delete/" + id;
+		restTemplate.exchange(url, HttpMethod.DELETE, null, Flashcard.class);
+		return this.getFlashcard(id);
+	}
+
+	@Override
+	public boolean updateFlashcard(Long id, String question, String answer) {
+		String url = baseUrl + "/api/flashcard/update" + id + "?question=" + question + "&answer=" + answer;
+		try {
+			restTemplate.put(url, null);
+			return true;
+		} catch(RestClientException e) {
+			return false;
+		}
 	}
 
 }

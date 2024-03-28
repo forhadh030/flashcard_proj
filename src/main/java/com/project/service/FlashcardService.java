@@ -9,9 +9,9 @@ import com.project.entity.Flashcard;
 @Service
 public interface FlashcardService {
 	
-	List < Flashcard > getFlashcards();
+	List < Flashcard > getAllFlashcards();
 	void saveFlashcard(Flashcard flashcard);
 	Flashcard getFlashcard(Long id);
-	void deleteFlashcard(Long id);
-	void updateFlashcard(Flashcard flashcard);
+	Flashcard deleteFlashcard(Long id);
+	boolean updateFlashcard(Long id, String question, String answer);
 }

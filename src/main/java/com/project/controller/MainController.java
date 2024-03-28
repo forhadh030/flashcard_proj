@@ -31,7 +31,7 @@ public class MainController {
 	
 	@GetMapping(value = "/viewFlashcards")
 	public String viewAllFlashcards(Model model) {
-		List<Flashcard> flashcards = flashcardService.getFlashcards();
+		List<Flashcard> flashcards = flashcardService.getAllFlashcards();
 		model.addAttribute("flashcard", flashcards);
 		return "viewFlashcards";
 	}
@@ -45,7 +45,6 @@ public class MainController {
 	
 	@PutMapping("/update")
 	public String updateFlashcard(@RequestBody Flashcard flashcard) {
-		flashcardService.updateFlashcard(flashcard);
 		return "redirect:/viewFlashcards";
 	}
 

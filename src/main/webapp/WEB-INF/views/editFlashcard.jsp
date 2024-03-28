@@ -35,7 +35,7 @@
 		
 			<div class="form-group">
 				<label for="date">Date:</label>
-				<input type="date" class="form-control" id="date" ng-model="flashcard.date">
+				<input type="date" class="form-control" id="date" ng-model="updatedFlashcard.date">
 			</div>
 		
 			<div class="form-group">

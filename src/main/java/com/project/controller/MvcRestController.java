@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Flashcard;
@@ -25,54 +26,65 @@ import com.project.service.FlashcardService;
 public class MvcRestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MvcRestController.class);
-
+	
 	@Autowired
-    private FlashcardService flashcardService;
-
-    @GetMapping
-    public List<Flashcard> getAllFlashcards() {
-        return new ResponseEntity<>(flashcardService.getFlashcards(), HttpStatus.CREATED).getBody();
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<Void> createFlashcard(@RequestBody Flashcard flashcard) {
-        try {
-        	flashcard.setDate(new Date());
-            flashcardService.saveFlashcard(flashcard);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
-            // Log the exception for debugging purposes
-            logger.error("Error occurred while processing the request: " + e.getMessage(), e);
-            // Return an appropriate response indicating failure
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	FlashcardService flashcardService;
+	
+	public MvcRestController(FlashcardService flashcardService) {
+		this.flashcardService = flashcardService;
+	}
+	
+	@GetMapping
+    public ResponseEntity<List<Flashcard>> getAllFlashcards() {
+        List<Flashcard> flashcards = flashcardService.getAllFlashcards();
+        if(flashcards.isEmpty()) {
+        	return ResponseEntity.noContent().build();
+        } else {
+        	return ResponseEntity.ok(flashcards);
         }
     }
-
-
-    @GetMapping("/{id}")
-    public Flashcard getFlashcardById(@PathVariable Long id) {
-    	return new ResponseEntity<Flashcard>(flashcardService.getFlashcard(id), HttpStatus.CREATED).getBody();
-    }
-
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Flashcard> updateFlashcard(@PathVariable("id") Long id, @RequestBody Flashcard flashcard) {
-    	Flashcard existingFlashcard = flashcardService.getFlashcard(id);
-    	System.out.println(existingFlashcard);
-    	if(existingFlashcard != null) {
-    		existingFlashcard.setQuestion(flashcard.getQuestion());
-    		existingFlashcard.setAnswer(flashcard.getAnswer());
-    		flashcardService.updateFlashcard(existingFlashcard);
-    		return new ResponseEntity<>(existingFlashcard, HttpStatus.OK);
+	
+	@GetMapping("/{id}")
+	public Flashcard getFlashcardById(@PathVariable Long id) {
+		return new ResponseEntity<Flashcard>(flashcardService.getFlashcard(id), HttpStatus.CREATED).getBody();
+	}
+	
+	@PostMapping("/create")
+	public ResponseEntity<Void> addFlashcard(@RequestBody Flashcard flashcard) {
+		try {
+			flashcard.setDate(new Date());
+			flashcardService.saveFlashcard(flashcard);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+	          // Log the exception for debugging purposes
+	          logger.error("Error occurred while processing the request: " + e.getMessage(), e);
+	          // Return an appropriate response indicating failure
+	          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	     }
+	}
+	
+	@PutMapping("/update/{id}")
+    public ResponseEntity<String> updateFlashcard(@PathVariable("id") Long id, 
+    		@RequestParam("question") String question, @RequestParam("answer") String answer) {
+    	boolean updated = flashcardService.updateFlashcard(id, question, answer);
+    	if(updated) {
+    		return ResponseEntity.ok().body("Flashcard updated successfully");
     	} else {
-    		System.out.println("data do not exist");
-    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update flashcard");
     	}
     }
-    
-    @DeleteMapping("/delete/{id}")
-    public List<Flashcard> deleteFlashcardById(@PathVariable Long id) {
-    	flashcardService.deleteFlashcard(id);
-    	return flashcardService.getFlashcards();
-    }
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteFlashcardById(@PathVariable Long id) {
+		try {
+			Flashcard deleted = flashcardService.deleteFlashcard(id);
+			if(deleted != null) {
+				return ResponseEntity.ok("Flashcard with ID " + id + " deleted successfully");
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete flashcard with ID " + id);
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occured while deleting flashcard with ID " + id);
+		}
+	}
 }
